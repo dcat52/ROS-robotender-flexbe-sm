@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="finger action test">
+
+	<executable package_path="robotender_flexbe_behaviors.finger_action_test_sm" class="fingeractiontestSM" />
+	<tagstring>robotender,custom_states,gripper</tagstring>
+	<author>Davis Catherman, Shannon Enders</author>
+	<date>Mon Oct 23 2017</date>
+	<description>
+		finger action test. Simple test of finger action states.  Do the wave.
+	</description>
+
+
+	<!-- Contained Behaviors -->
+
+	<!-- Available Parameters -->
+
+</behavior>

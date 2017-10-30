@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="Move_To_Retrieved_Postion">
+
+	<executable package_path="robotender_flexbe_behaviors.move_to_retrieved_postion_sm" class="Move_To_Retrieved_PostionSM" />
+	<tagstring>test</tagstring>
+	<author>Davis Catherman, Shannon Enders</author>
+	<date>Wed Sep 06 2017</date>
+	<description>
+		Workflow: Go_Home --> Get_Joint_Values --> Go_Retract --> Go_To_Retrieved_Values
+	</description>
+
+
+	<!-- Contained Behaviors -->
+
+	<!-- Available Parameters -->
+
+</behavior>

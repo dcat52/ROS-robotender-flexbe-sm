@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="move between static cup locations">
+
+	<executable package_path="robotender_flexbe_behaviors.move_between_static_cup_locations_sm" class="movebetweenstaticcuplocationsSM" />
+	<tagstring>test,robotender</tagstring>
+	<author>Davis Catherman, Shannon Enders</author>
+	<date>Thu Oct 05 2017</date>
+	<description>
+		Move between static positions for cups.
+	</description>
+
+
+	<!-- Contained Behaviors -->
+
+	<!-- Available Parameters -->
+
+</behavior>
