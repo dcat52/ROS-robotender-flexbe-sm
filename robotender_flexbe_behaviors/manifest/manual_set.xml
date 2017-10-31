@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="Manual_Set">
+
+	<executable package_path="robotender_flexbe_behaviors.manual_set_sm" class="Manual_SetSM" />
+	<tagstring></tagstring>
+	<author>Davis Catherman, Shannon Enders</author>
+	<date>Wed Sep 13 2017</date>
+	<description>
+		Grab values
+	</description>
+
+
+	<!-- Contained Behaviors -->
+
+	<!-- Available Parameters -->
+
+</behavior>

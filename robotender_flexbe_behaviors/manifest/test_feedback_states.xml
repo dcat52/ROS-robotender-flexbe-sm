@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="test feedback states">
+
+	<executable package_path="robotender_flexbe_behaviors.test_feedback_states_sm" class="testfeedbackstatesSM" />
+	<tagstring>robotender, custom_states,test</tagstring>
+	<author>Davis Catherman, Shannon Enders</author>
+	<date>Wed Oct 18 2017</date>
+	<description>
+		test feedback moveit states for full autonomoy of the robotender
+	</description>
+
+
+	<!-- Contained Behaviors -->
+
+	<!-- Available Parameters -->
+
+</behavior>
