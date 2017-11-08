@@ -23,8 +23,6 @@ class FeedbackJointStateToMoveit(EventState):
         '''
         State to send a joint state configuration to MoveIt to plan and move.
 
-        -- position_topic       string              Name of topic for joint states.
-
         -- move_group           string              Name of the move group to be used for planning.
 
         -- action_topic         string              Topic on which MoveIt is listening for action calls.
@@ -33,6 +31,10 @@ class FeedbackJointStateToMoveit(EventState):
                                                                 If left empty, the first one found will be used
                                                                 (only required if multiple robots are specified in the same file).
 
+        -- position_topic       string              Topic on which to validate the arm has reached the goal.
+
+        -- delta                float               Value to check to see if each joint is moving.
+
         ># joint_names          string[]            Names of the target joints.
                                                                         Same order as their corresponding names in joint_values.
 
@@ -40,22 +42,23 @@ class FeedbackJointStateToMoveit(EventState):
                                                                         Same order as their corresponding names in joint_names.
 
         <= reached                                  Target joint configuration has been reached.
-        <= planning_failed                          Failed to find a plan to the given joint configuration.
-        <= control_failed                           Failed to move the arm along the planned trajectory.
+
+        <= failed                          Failed to find a reach/plan the given joint configuration.
 
         '''
 
 
-        def __init__(self, position_topic="/m1n6s200_driver/joint_states", move_group="arm", action_topic="/move_group", robot_name="m1n6s200"):
+        def __init__(self, move_group="arm", action_topic="/move_group", robot_name="m1n6s200",
+                position_topic='/m1n6s200_driver/joint_states', delta=1E-4):
                 '''
                 Constructor
                 '''
                 super(FeedbackJointStateToMoveit, self).__init__(input_keys=['joint_values', 'joint_names'],
-                                                        outcomes=['reached', 'planning_failed', 'control_failed'],
-                                                        output_keys=['move_group', 'action_topic', 'joint_values', 'joint_names'])
+                                                        outcomes=['reached', 'failed'])
 
 
-                self._position_topic  = position_topic
+                self._position_topic = position_topic
+                self._delta = delta
                 self._move_group      = move_group
                 self._action_topic    = action_topic
                 self._robot_name   = robot_name
@@ -65,9 +68,9 @@ class FeedbackJointStateToMoveit(EventState):
                 Execute this state
                 '''
                 if self._planning_failed:
-                        return 'planning_failed'
+                        return 'failed'
                 if self._control_failed:
-                        return 'control_failed'
+                        return 'failed'
                 if self._success:
                         return 'reached'
 
@@ -77,19 +80,19 @@ class FeedbackJointStateToMoveit(EventState):
                         if result.error_code.val == MoveItErrorCodes.CONTROL_FAILED:
                                 Logger.logwarn('Control failed for move action of group: %s (error code: %s)' % (self._move_group, str(result.error_code)))
                                 self._control_failed = True
-                                return 'control_failed'
+                                return 'failed'
                         elif result.error_code.val != MoveItErrorCodes.SUCCESS:
                                 Logger.logwarn('Move action failed with result error code: %s' % str(result.error_code))
                                 self._planning_failed = True
-                                return 'planning_failed'
+                                return 'failed'
                         else:
-                                if len(self._last_position) != 0:
+                                if len(self._last_position) != 0 and len(self._current_position) != 0:
 
                                         temp_success = True
 
                                         # Check to see within error delta,
                                         # this checks to see if still moving
-                                        for index in range(len(self._current_position)):
+                                        for index in range(len(self._last_position)):
 
                                                 actual_delta = self._last_position[index] - self._current_position[index]
                                                 if actual_delta > self._delta:
@@ -115,8 +118,6 @@ class FeedbackJointStateToMoveit(EventState):
                 self._joint_config    = userdata.joint_values
                 self._joint_names     = userdata.joint_names
 
-                # small delta value - arbitrarily chosen
-                self._delta           = 0.0000001
                 self._sub             = ProxySubscriberCached({self._position_topic: JointState})
                 self._current_position= []
 
@@ -143,7 +144,8 @@ class FeedbackJointStateToMoveit(EventState):
 
         def on_stop(self):
                 try:
-                        if self._client.is_available(self._action_topic) and not self._client.has_result(self._action_topic) and self._success == True:
+                        if self._client.is_available(self._action_topic) \
+                        and not self._client.has_result(self._action_topic):
                                 self._client.cancel(self._action_topic)
                 except:
                         # client already closed

@@ -34,23 +34,25 @@ class FeedbackSrdfStateToMoveit(EventState):
                                                                 If left empty, the first one found will be used
                                                                 (only required if multiple robots are specified in the same file).
 
-        ># joint_values         float[]             Target configuration of the joints.
-                                                                        Same order as their corresponding names in joint_names.
+        -- position_topic       string              Topic on which to validate the arm has reached the goal.
+
+        -- delta                float               Value to check to see if each joint is moving.
 
         <= reached                                  Target joint configuration has been reached.
-        <= planning_failed                          Failed to find a plan to the given joint configuration.
-        <= control_failed                           Failed to move the arm along the planned trajectory.
+
+        <= failed                                   Failed to plan / move / reach.
 
         '''
 
-        def __init__(self, config_name, move_group="", action_topic = '/move_group', robot_name=""):
+        def __init__(self, config_name='Home', move_group='arm', action_topic='/move_group', robot_name='m1n6s200',
+            position_topic='/m1n6s200_driver/joint_states', delta=1E-4):
                 '''
                 Constructor
                 '''
-                super(FeedbackSrdfStateToMoveit, self).__init__(outcomes=['reached', 'planning_failed', 'control_failed', 'param_error'],
-                                                        output_keys=['config_name', 'move_group', 'robot_name',  'action_topic', 'joint_values', 'joint_names'])
+                super(FeedbackSrdfStateToMoveit, self).__init__(outcomes=['reached', 'failed'])
 
-
+                self._position_topic = position_topic
+                self._delta = delta
                 self._config_name  = config_name
                 self._move_group   = move_group
                 self._robot_name   = robot_name
@@ -73,14 +75,14 @@ class FeedbackSrdfStateToMoveit(EventState):
 
         def execute(self, userdata):
                 if self._param_error:
-                        return 'param_error'
+                        return 'failed'
                 '''
                 Execute this state
                 '''
                 if self._planning_failed:
-                        return 'planning_failed'
+                        return 'failed'
                 if self._control_failed:
-                        return 'control_failed'
+                        return 'failed'
                 if self._success:
                         return 'reached'
 
@@ -90,13 +92,13 @@ class FeedbackSrdfStateToMoveit(EventState):
                         if result.error_code.val == MoveItErrorCodes.CONTROL_FAILED:
                                 Logger.logwarn('Control failed for move action of group: %s (error code: %s)' % (self._move_group, str(result.error_code)))
                                 self._control_failed = True
-                                return 'control_failed'
+                                return 'failed'
                         elif result.error_code.val != MoveItErrorCodes.SUCCESS:
                                 Logger.logwarn('Move action failed with result error code: %s' % str(result.error_code))
                                 self._planning_failed = True
-                                return 'planning_failed'
+                                return 'failed'
                         else:
-                                if len(self._last_position) != 0:
+                                if len(self._last_position) != 0 and len(self._current_position) != 0:
 
                                         temp_success = True
 
@@ -136,8 +138,8 @@ class FeedbackSrdfStateToMoveit(EventState):
                 self._control_failed  = False
                 self._success         = False
 
-                self._position_topic  = "/m1n6s200_driver/joint_states"
-                self._delta           = 0.0000001
+                #self._position_topic  = "/m1n6s200_driver/joint_states"
+                #self._delta           = 0.0000001
                 self._sub             = ProxySubscriberCached({self._position_topic: JointState})
                 self._current_position= []
 
@@ -209,7 +211,7 @@ class FeedbackSrdfStateToMoveit(EventState):
         def on_stop(self):
                 try:
                         if self._client.is_available(self._action_topic) \
-                        and not self._client.has_result(self._action_topic) and self._success == True:
+                        and not self._client.has_result(self._action_topic):
                                 self._client.cancel(self._action_topic)
                 except:
                         # client already closed

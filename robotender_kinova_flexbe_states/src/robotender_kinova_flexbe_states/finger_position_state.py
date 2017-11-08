@@ -41,7 +41,8 @@ class FingerPositionState(EventState):
         '''
 
 
-        def __init__(self, result_topic="/m1n6s200_driver/fingers_action/finger_positions/result", action_topic="/m1n6s200_driver/fingers_action/finger_positions", robot_name="m1n6s200"):
+        def __init__(self, result_topic="/m1n6s200_driver/fingers_action/finger_positions/result", 
+            action_topic="/m1n6s200_driver/fingers_action/finger_positions", robot_name="m1n6s200"):
                 '''
                 Constructor
                 '''
@@ -70,21 +71,19 @@ class FingerPositionState(EventState):
                 self._success         = False
                 self._finger_config   = userdata.finger_values
 
-                #self._sub             = ProxySubscriberCached({self._result_topic: JointState})
-
-                #self._client = ProxyActionClient({self._action_topic: MoveGroupAction})
-
         def on_stop(self):
                 try:
-                        pass
+                    if self._client.is_available(self._action_topic) \
+                        and not self._client.has_result(self._action_topic):
+                                self._client.cancel(self._action_topic)
                 except:
-                        # client already closed
                         pass
 
         def on_pause(self):
-                #self._client.cancel(self._action_topic)
                 try:
-                        pass
+                    if self._client.is_available(self._action_topic) \
+                        and not self._client.has_result(self._action_topic):
+                                self._client.cancel(self._action_topic)
                 except:
                         pass
 
