@@ -64,30 +64,30 @@ class SimplePourLeftSM(Behavior):
 			# x:67 y:41
 			OperatableStateMachine.add('center1',
 										FeedbackJointStateToMoveit(position_topic="/m1n6s200_driver/joint_states", move_group="arm", action_topic="/move_group", robot_name="m1n6s200"),
-										transitions={'reached': 'Grasp', 'planning_failed': 'failed', 'control_failed': 'failed'},
-										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
-										remapping={'joint_values': 'center', 'joint_names': 'joint_names', 'move_group': 'move_group', 'action_topic': 'action_topic'})
+										transitions={'reached': 'Grasp', 'failed': 'failed'},
+										autonomy={'reached': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'joint_values': 'center', 'joint_names': 'joint_names'})
 
 			# x:325 y:162
 			OperatableStateMachine.add('prep pour',
 										FeedbackJointStateToMoveit(position_topic="/m1n6s200_driver/joint_states", move_group="arm", action_topic="/move_group", robot_name="m1n6s200"),
-										transitions={'reached': 'pour', 'planning_failed': 'failed', 'control_failed': 'failed'},
-										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
-										remapping={'joint_values': 'prep_pour', 'joint_names': 'joint_names', 'move_group': 'move_group', 'action_topic': 'action_topic'})
+										transitions={'reached': 'pour', 'failed': 'failed'},
+										autonomy={'reached': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'joint_values': 'prep_pour', 'joint_names': 'joint_names'})
 
 			# x:619 y:171
 			OperatableStateMachine.add('pour',
 										FeedbackJointStateToMoveit(position_topic="/m1n6s200_driver/joint_states", move_group="arm", action_topic="/move_group", robot_name="m1n6s200"),
-										transitions={'reached': 'post pour', 'planning_failed': 'failed', 'control_failed': 'failed'},
-										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
-										remapping={'joint_values': 'pour', 'joint_names': 'joint_names', 'move_group': 'move_group', 'action_topic': 'action_topic'})
+										transitions={'reached': 'post pour', 'failed': 'failed'},
+										autonomy={'reached': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'joint_values': 'pour', 'joint_names': 'joint_names'})
 
 			# x:897 y:158
 			OperatableStateMachine.add('post pour',
 										FeedbackJointStateToMoveit(position_topic="/m1n6s200_driver/joint_states", move_group="arm", action_topic="/move_group", robot_name="m1n6s200"),
-										transitions={'reached': 'center2', 'planning_failed': 'failed', 'control_failed': 'failed'},
-										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
-										remapping={'joint_values': 'post_pour', 'joint_names': 'joint_names', 'move_group': 'move_group', 'action_topic': 'action_topic'})
+										transitions={'reached': 'center2', 'failed': 'failed'},
+										autonomy={'reached': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'joint_values': 'post_pour', 'joint_names': 'joint_names'})
 
 			# x:1036 y:338
 			OperatableStateMachine.add('release',
@@ -99,9 +99,9 @@ class SimplePourLeftSM(Behavior):
 			# x:1097 y:190
 			OperatableStateMachine.add('center2',
 										FeedbackJointStateToMoveit(position_topic="/m1n6s200_driver/joint_states", move_group="arm", action_topic="/move_group", robot_name="m1n6s200"),
-										transitions={'reached': 'release', 'planning_failed': 'failed', 'control_failed': 'failed'},
-										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
-										remapping={'joint_values': 'center', 'joint_names': 'joint_names', 'move_group': 'move_group', 'action_topic': 'action_topic'})
+										transitions={'reached': 'release', 'failed': 'failed'},
+										autonomy={'reached': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'joint_values': 'center', 'joint_names': 'joint_names'})
 
 			# x:58 y:171
 			OperatableStateMachine.add('Grasp',

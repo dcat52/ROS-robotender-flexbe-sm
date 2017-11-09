@@ -59,17 +59,16 @@ class testfeedbackstatesSM(Behavior):
 		with _state_machine:
 			# x:111 y:45
 			OperatableStateMachine.add('home',
-										FeedbackSrdfStateToMoveit(config_name="Home", move_group="arm", action_topic='/move_group', robot_name="m1n6s200"),
-										transitions={'reached': 'Testing ', 'planning_failed': 'failed', 'control_failed': 'failed', 'param_error': 'failed'},
-										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
-										remapping={'config_name': 'config_name', 'move_group': 'move_group', 'robot_name': 'robot_name', 'action_topic': 'action_topic', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
+										FeedbackSrdfStateToMoveit(config_name="Home", move_group="arm", action_topic='/move_group', robot_name="m1n6s200", position_topic='/m1n6s200_driver/joint_states', delta=1E-7),
+										transitions={'reached': 'Testing ', 'failed': 'failed'},
+										autonomy={'reached': Autonomy.Off, 'failed': Autonomy.Off})
 
 			# x:457 y:49
 			OperatableStateMachine.add('Testing ',
-										FeedbackJointStateToMoveit(position_topic="/m1n6s200_driver/joint_states", move_group="arm", action_topic="/move_group", robot_name="m1n6s200"),
-										transitions={'reached': 'go home2', 'planning_failed': 'failed', 'control_failed': 'failed'},
-										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
-										remapping={'joint_values': 'joint_values_test', 'joint_names': 'joint_names_test', 'move_group': 'move_group', 'action_topic': 'action_topic'})
+										FeedbackJointStateToMoveit(move_group="arm", action_topic="/move_group", robot_name="m1n6s200", position_topic="/m1n6s200_driver/joint_states", delta=1E-7),
+										transitions={'reached': 'go home2', 'failed': 'failed'},
+										autonomy={'reached': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'joint_values': 'joint_values_test', 'joint_names': 'joint_names_test'})
 
 			# x:803 y:55
 			OperatableStateMachine.add('go home2',
