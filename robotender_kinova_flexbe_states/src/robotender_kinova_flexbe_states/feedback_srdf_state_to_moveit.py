@@ -160,7 +160,6 @@ class FeedbackSrdfStateToMoveit(EventState):
                         for r in self._srdf.iter('robot'):
                                 if self._robot_name == '' or self._robot_name == r.attrib['name']:
                                         robot = r
-                                        userdata.robot_name = robot  # Save robot name to output key
                                         break
                         if robot is None:
                                 Logger.logwarn('Did not find robot name in SRDF: %s' % self._robot_name)
@@ -172,8 +171,6 @@ class FeedbackSrdfStateToMoveit(EventState):
                                 and c.attrib['name'] == self._config_name:
                                         config = c
                                         self._move_group = c.attrib['group']  # Set move group name in case it was not defined
-                                        userdata.config_name = config           # Save configuration name to output key
-                                        userdata.move_group  = self._move_group  # Save move_group to output key
                                         break
                         if config is None:
                                 Logger.logwarn('Did not find config name in SRDF: %s' % self._config_name)
@@ -182,8 +179,6 @@ class FeedbackSrdfStateToMoveit(EventState):
                         try:
                                 self._joint_config = [float(j.attrib['value']) for j in config.iter('joint')]
                                 self._joint_names  = [str(j.attrib['name']) for j in config.iter('joint')]
-                                userdata.joint_values = self._joint_config  # Save joint configuration to output key
-                                userdata.joint_names  = self._joint_names  # Save joint names to output key
                         except Exception as e:
                                 Logger.logwarn('Unable to parse joint values from SRDF:\n%s' % str(e))
                                 return 'param_error'

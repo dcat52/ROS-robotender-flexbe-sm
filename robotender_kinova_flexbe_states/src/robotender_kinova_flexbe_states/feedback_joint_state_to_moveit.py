@@ -137,7 +137,6 @@ class FeedbackJointStateToMoveit(EventState):
 
                 try:
                         self._client.send_goal(self._action_topic, action_goal)
-                        userdata.action_topic = self._action_topic  # Save action topic to output key
                 except Exception as e:
                         Logger.logwarn('Failed to send action goal for group: %s\n%s' % (self._move_group, str(e)))
                         self._planning_failed = True
