@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="test subscribe and move">
+
+	<executable package_path="robotender_flexbe_behaviors.test_subscribe_and_move_sm" class="testsubscribeandmoveSM" />
+	<tagstring>test</tagstring>
+	<author>Davis,Shannon</author>
+	<date>Mon Feb 05 2018</date>
+	<description>
+		test subscribe and move
+	</description>
+
+
+	<!-- Contained Behaviors -->
+
+	<!-- Available Parameters -->
+
+</behavior>
