@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="drink mode pour">
+
+	<executable package_path="robotender_flexbe_behaviors.drink_mode_pour_sm" class="drinkmodepourSM" />
+	<tagstring>pour</tagstring>
+	<author>Davis Catherman, Shannon Enders</author>
+	<date>Fri Nov 03 2017</date>
+	<description>
+		drink mode pour with hard-coded positions
+	</description>
+
+
+	<!-- Contained Behaviors -->
+
+	<!-- Available Parameters -->
+
+</behavior>

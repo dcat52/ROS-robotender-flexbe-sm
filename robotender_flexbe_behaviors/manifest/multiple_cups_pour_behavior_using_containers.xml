@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="multiple cups pour behavior using containers">
+
+	<executable package_path="robotender_flexbe_behaviors.multiple_cups_pour_behavior_using_containers_sm" class="multiplecupspourbehaviorusingcontainersSM" />
+	<tagstring>multiple cups loop pour</tagstring>
+	<author>Davis Catherman, Shannon Enders</author>
+	<date>Wed Nov 01 2017</date>
+	<description>
+		Pour to left cup from center, then pour to center cup from left cup. (loop possibilities)
+	</description>
+
+
+	<!-- Contained Behaviors -->
+
+	<!-- Available Parameters -->
+
+</behavior>

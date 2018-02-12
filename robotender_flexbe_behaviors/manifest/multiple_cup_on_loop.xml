@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="multiple cup on loop">
+
+	<executable package_path="robotender_flexbe_behaviors.multiple_cup_on_loop_sm" class="multiplecuponloopSM" />
+	<tagstring>robotender,demo</tagstring>
+	<author>Davis Catherman, Shannon Enders</author>
+	<date>Thu Nov 02 2017</date>
+	<description>
+		loooped
+	</description>
+
+
+	<!-- Contained Behaviors -->
+	<contains name="multiple cups pour behavior using containers" />
+
+	<!-- Available Parameters -->
+
+</behavior>

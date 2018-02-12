@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="mixer demo">
+
+	<executable package_path="robotender_flexbe_behaviors.mixer_demo_sm" class="mixerdemoSM" />
+	<tagstring>demo</tagstring>
+	<author>Davis Catherman</author>
+	<date>Fri Nov 03 2017</date>
+	<description>
+		mixer for use with food coloring as demo.
+
+Requires 3 cups.
+	</description>
+
+
+	<!-- Contained Behaviors -->
+
+	<!-- Available Parameters -->
+
+</behavior>
